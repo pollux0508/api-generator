@@ -9,7 +9,7 @@ import com.intellij.psi.javadoc.PsiDocTag;
 import com.intellij.psi.util.PsiUtil;
 import lombok.Data;
 import org.apache.commons.lang.StringUtils;
-import site.forgus.plugins.apigenerator.util.DesUtil;
+import site.forgus.plugins.apigenerator.util.YApiUtil;
 
 import java.io.Serializable;
 import java.util.*;
@@ -31,7 +31,7 @@ public class MethodInfo implements Serializable {
     private List<String> excludeParamTypes = Arrays.asList("RedirectAttributes", "HttpServletRequest", "HttpServletResponse");
 
     public MethodInfo(PsiMethod psiMethod) {
-        this.setDesc(DesUtil.getDescription(psiMethod));
+        this.setDesc(YApiUtil.getFirstAndLastChar(psiMethod));
         PsiClass psiClass = psiMethod.getContainingClass();
         if (psiClass == null) {
             return;

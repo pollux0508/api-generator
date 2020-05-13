@@ -265,7 +265,8 @@ public class ApiGenerateAction extends AnAction {
         yApiInterface.setMethod(requestMethodEnum.name());
         if (methodInfo.getParamStr().contains(WebAnnotation.RequestBody)) {
             yApiInterface.setReq_body_type(RequestBodyTypeEnum.JSON.getValue());
-            yApiInterface.setReq_body_other(JsonUtil.buildJson5(getRequestBodyParam(methodInfo.getRequestFields())));
+            yApiInterface.setReq_body_other(YApiUtil.buildJson5(getRequestBodyParam(methodInfo.getRequestFields())));
+            yApiInterface.setReq_body_is_json_schema(true);
         } else {
             if (yApiInterface.getMethod().equals(RequestMethodEnum.POST.name())) {
                 yApiInterface.setReq_body_type(RequestBodyTypeEnum.FORM.getValue());
@@ -276,18 +277,23 @@ public class ApiGenerateAction extends AnAction {
         Map<String, YApiCat> catNameMap = getCatNameMap();
         PsiDocComment classDesc = containingClass.getDocComment();
         yApiInterface.setCatid(getCatId(catNameMap, classDesc));
-        yApiInterface.setTitle(requestMethodEnum.name() + " " + methodInfo.getDesc());
+        //修改了接口命名方式
+        String title = methodInfo.getDesc().split("\n")[0].trim();
+        yApiInterface.setTitle(title);
         yApiInterface.setPath(buildPath(classRequestMapping, methodMapping));
         if (containResponseBodyAnnotation(psiMethod.getAnnotations()) || controller.getText().contains("Rest")) {
             yApiInterface.setReq_headers(Collections.singletonList(YApiHeader.json()));
-            yApiInterface.setRes_body(JsonUtil.buildJson5(methodInfo.getResponse()));
+            yApiInterface.setRes_body(YApiUtil.buildJson5(methodInfo.getResponse()));
+            yApiInterface.setRes_body_is_json_schema(true);
         } else {
             yApiInterface.setReq_headers(Collections.singletonList(YApiHeader.form()));
             yApiInterface.setRes_body_type(ResponseBodyTypeEnum.RAW.getValue());
             yApiInterface.setRes_body("");
         }
         yApiInterface.setReq_params(listYApiPathVariables(methodInfo.getRequestFields()));
-        yApiInterface.setDesc(Objects.nonNull(yApiInterface.getDesc()) ? yApiInterface.getDesc() : "<pre><code data-language=\"java\" class=\"java\">" + getMethodDesc(psiMethod) + "</code> </pre>");
+        String desc = methodInfo.getDesc().replace(title, "").trim();
+        yApiInterface.setDesc(org.apache.commons.lang3.StringUtils.isNotBlank(desc) ? desc : "<pre><code data-language=\"java\" class=\"java\">" + getMethodDesc(psiMethod) + "</code> </pre>");
+        yApiInterface.setMarkdown(yApiInterface.getDesc().trim());
         return yApiInterface;
     }
 

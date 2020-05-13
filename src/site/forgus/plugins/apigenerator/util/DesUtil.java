@@ -25,7 +25,7 @@ public class DesUtil {
      * @param element 需要去除的字符.
      * @return String.
      */
-    private static String trimFirstAndLastChar(String source, char element) {
+    protected static String trimFirstAndLastChar(String source, char element) {
         boolean beginIndexFlag;
         boolean endIndexFlag;
         do {
