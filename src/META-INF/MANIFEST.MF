@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Class-Path: maven-model-3.0.jar plexus-utils-2.0.4.jar lombok-1.16.10.ja
+ r
+

@@ -79,7 +79,7 @@ public class MethodInfo implements Serializable {
         for (PsiDocTag docTag : docComment.getTags()) {
             String tagValue = docTag.getValueElement() == null ? "" : docTag.getValueElement().getText();
             if ("param".equals(docTag.getName()) && StringUtils.isNotEmpty(tagValue)) {
-                paramDescMap.put(tagValue, getParamDesc(docTag.getText()));
+                paramDescMap.put(tagValue, YApiUtil.getParamDesc(docTag.getText()));
             }
         }
         return paramDescMap;

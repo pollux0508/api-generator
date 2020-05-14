@@ -87,4 +87,13 @@ public class YApiUtil {
 						.replace("{", ""), ' '
 		).trim();
 	}
+
+	public static String getParamDesc(String tagText) {
+		String[] strings = tagText.replace("*","").replaceAll(" {2,}", " ").trim().split(" ");
+		if (strings.length >= 3) {
+			String desc = strings[2];
+			return desc.replace("\n", "");
+		}
+		return "";
+	}
 }
