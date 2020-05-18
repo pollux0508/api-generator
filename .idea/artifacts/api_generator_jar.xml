@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact build-on-make="true" name="api-generator:jar">
+    <output-path>$PROJECT_DIR$/out/api-generator/lib</output-path>
+    <root id="root">
+      <element id="archive" name="api-generator.jar">
+        <element id="module-output" name="api-generator" />
+      </element>
+      <element id="library" level="project" name="org.projectlombok:lombok:1.18.12" />
+      <element id="library" level="project" name="org.apache.maven:maven-model:3.6.3" />
+    </root>
+  </artifact>
+</component>
